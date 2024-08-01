@@ -69,10 +69,15 @@ function loadUIState() {
         clearUIState();
         const state = JSON.parse(stateJson);
         for (const [selector, value] of Object.entries(state)) {
-            const elem = document.querySelector(selector);
-            if (elem) {
-                writeElementValue(elem, value);
+            try {
+                const elem = document.querySelector(selector);
+                if (elem) {
+                    writeElementValue(elem, value);
+                }
             }
+            catch(e) {
+				console.error(`Failed to restore UI state for element ${selector}`, e);
+			}
         }
         
         if (state.__activeElement) {
